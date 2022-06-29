@@ -1,0 +1,47 @@
+package com.example.a2043av;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.media.MediaPlayer;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends AppCompatActivity {
+    Button PLAY;
+    Button PAUSE;
+    Button STOP;
+    MediaPlayer MP;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        PLAY = (Button) findViewById(R.id.b1);
+        PAUSE=(Button) findViewById(R.id.b2);
+        STOP =(Button) findViewById(R.id.b3);
+        MP=MediaPlayer.create(this,R.raw.justin_bieber);
+
+        PLAY.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MP.start();
+            }
+        });
+        PAUSE.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MP.pause();
+            }
+        });
+
+
+    }
+            public void clkstop(View view) {
+            MP.stop();
+            MP=MediaPlayer.create(this,R.raw.justin_bieber);
+        }
+
+
+}
+

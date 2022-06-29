@@ -1,0 +1,73 @@
+mainactivity
+
+package com.example.sqlite2043;
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+public class MainActivity extends AppCompatActivity {
+ EditText et2;
+ EditText et1;
+ Button b1;
+ databasehandler db;
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ et2= findViewById(R.id.et2);
+ et1=findViewById(R.id.et1);
+ b1=findViewById(R.id.b1);
+ db = new databasehandler(MainActivity.this);
+ }
+ public void insertdata(View view){
+ int rno= Integer.parseInt(et2.getText().toString());
+ String n;
+ n= et1.getText().toString();
+ db.opendb();
+ db.insertvalues(rno,n);
+ Toast.makeText(this,"Data inserted", Toast.LENGTH_SHORT).show();
+ db.closedb();
+ }
+} 
+
+
+
+dbhelper
+
+package com.example.sqlite2043;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import androidx.annotation.Nullable;
+public class databasehandler extends SQLiteOpenHelper {
+ private static final String dname="Student";
+ SQLiteDatabase sqldb;
+ public databasehandler(@Nullable Context context) {
+ super(context, dname, null, 1);
+ }
+ @Override
+ public void onCreate(SQLiteDatabase sqLiteDatabase) {
+ String query= "create table studdetail(rollno,name)";
+ sqLiteDatabase.execSQL(query);
+ }
+ @Override
+ public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+ }
+ public void opendb()
+ {
+ sqldb= getWritableDatabase();
+ }
+ public void closedb()
+ {
+ sqldb.close();
+ }
+ public void insertvalues(int rno, String n) {
+ ContentValues cv=new ContentValues();
+ cv.put("rollno",rno);
+ cv.put("name",n);
+ sqldb.insert("studdetail",null,cv);
+ }
+} 
